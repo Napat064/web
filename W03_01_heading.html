@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heading</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(223, 222, 222);
+            line-height: 1.7;
+        }
+        .head {
+            color: #d12297;
+            text-align: center;
+        }
+        .Pisad {
+            color: rgb(105, 105, 105);
+            text-align: center;
+        }
+        .card {
+            background-color: rgb(255, 255, 255);
+            border-top:5px solid #d12297 ;
+            margin: 0 90px;
+            border-radius: 12px;
+            padding: 20px 35px;
+            box-shadow: 0 4px 12px #6e6e6e;
+            margin-bottom: 40px;
+        }
+        pre {
+            background-color: rgb(230, 230, 230);
+            border-left:5px solid #d12297 ;
+            padding: 1px;
+        }
+        
+    
+        .con {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .note {
+            border-left:5px solid #6e6e6e;
+            padding-left: 10px;
+            color: #6e6e6e;
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="con">
+        <H1 class="head">Workshop: HTML Heading</H1>
+        <p class="Pisad">ฝึกใช้แท็ก &lt;h1&gt; – &lt;&gt; และการปรับขนาดหัวข้อด้วย CSS</p>
+        <!-- Section 1 -->
+            <section class="card">
+                <h2>1. ความหมายของ Headings (H1–H6)</h2>
+                <p>HTML มีหัวข้อทั้งหมด 6 ระดับ</p>
+                <ul>
+                    <li>H1 – หัวข้อใหญ่สุด ใช้สำหรับชื่อหน้าเว็บหรือหัวข้อหลัก</li>
+                    <li>H2 – หัวข้อรอง แบ่ง Section ของเนื้อหา</li>
+                    <li>H3 – หัวข้อย่อยภายใน H2</li>
+                    <li>H4 – ย่อยลงไปอีกระดับ</li>
+                    <li>H5 – ใช้น้อย แต่เน้นลำดับข้อมูล</li>
+                    <li>H6 – เล็กสุด ใช้กับหัวข้อระดับลึก</li>
+                </ul>
+                <p class="note">💡 H1 ควรมีเพียง 1 อันในแต่ละหน้า เพื่อช่วย SEO และโครงสร้างเอกสาร</p>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="card">
+                <h2>2. ตัวอย่างการใช้ H1–H6</h2>
+                <section class="card2">
+                    <pre>
+
+    &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+    &lt;h2&gt;HTML Basics&lt;/h2&gt;
+    &lt;h3&gt;What is HTML?&lt;/h3&gt;
+    &lt;h4&gt;HTML Syntax&lt;/h4&gt;
+    &lt;h5&gt;Example Code&lt;/h5&gt;
+    &lt;h6&gt;Note: Case Sensitive&lt;/h6&gt;
+                    </pre>
+                </section>
+                
+                <p>เมื่อแสดงผลจะได้ขนาดลดหลั่นแบบนี้ :</p>
+                <ul>
+                    <li><h1>H1: Welcome to My Website</h1></li>
+                    <li><h2>H2: HTML Basics</h2></li>
+                    <li><h3>H3: What is HTML?</h3></li>
+                    <li><h4>H4: HTML Syntax</h4></li>
+                    <li><h5>H5: Example Code</h5></li>
+                    <li><h6>H6: Note about heading size</h6></li>
+                </ul>
+                
+            </section>
+
+            <!-- Section 3 -->
+            <section class="card">
+                <h2>3. ถ้าอยากให้หัวข้อ “ใหญ่กว่า” หรือ “เล็กกว่า” ขนาดเดิม?</h2>
+                <p>ใช้ CSS แทนการเลือก h1–h6 ผิดลําดับ เช่น :</p>
+                <pre>
+
+    h3 {
+        font-size: 40px; /* ทําให้ H3 ใหญ่เท่า H1 ได ้ */
+        color: #c4005a;
+    }
+
+    h5 {
+        font-size: 12px; /* ทําให้ H5 เล็กลงอีก */
+    }   
+                </pre>
+                <p>หรือสามารถกําหนดเฉพาะบางหัวข้อได้ : </p>
+                <pre>
+
+    &lt;h3 style="font-size: 50px; color: blue;"&gt;Big Custom Heading&lt;/h3&gt;
+                </pre>
+                <p class="note">💡 จําไว้ว่าลําดับหัวข้อควรเป็น H1 → H2 → H3 ตามโครงสร้างเนื้อหา ไม่ควรใช้ H5 เพื่อให้ “ตัวเล็กลง” หรือใช้ H1
+                    เพื่อให ้ “ตัวใหญ่ขึ้น” → ต้องแก้ด้วย CSS เท่านั้น</p>
+            </section>
+
+            <a href="W02-674230038.html" style="margin: 0 90px;"> &larr; Back to HTML Tutorial</a>
+
+    </div>
+
+</body>
+</html>
