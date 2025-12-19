@@ -13,9 +13,7 @@
         h1,h2{color: #d33785;}
         ul {
             list-style-type: circle;
-        a {text-decoration: none;color: #2905ad;}
         
-        a:hover {text-decoration: underline;color: #db0606;}
         }
         pre {
             background-color: rgb(230, 230, 230);
@@ -23,6 +21,9 @@
             font-size: 16px;
             padding: 10px;
         }
+        a {text-decoration: none;color: #2905ad;}
+        
+        a:hover {text-decoration: underline;color: #db0606;}
     </style>
 </head>
 <body>
@@ -31,23 +32,22 @@
         <p>Welcome to the HTML tutorial. Click on the topics below to start learning:</p>
     <h2>Topics</h2>
     <ul>
-        <li><a href="http://">Introduction to HTML</a></li>
-        <li><a href="http://">HTML Document Structure</a></li>
-        <li><a href="http://">Heading</a></li>
-        <li><a href="http://">Paragraph</a></li>
-        <li><a href="http://">Text Formatting</a></li>
-        <li><a href="http://">Creating Links</a></li>
-        <li><a href="http://">Lists (Ordered and Unordered)</a></li>
-        <li><a href="http://">Adding Images</a></li>
-        <li><a href="http://">Creating Tables</a></li>
-        <li><a href="http://">HTML Forms</a></li>
-        <li><a href="http://">Embedding Multimedia (Audio & Video)</a></li>
-        <li><a href="http://">Semantic HTML</a></li>
+        <li><a href="#1">Introduction to HTML</a></li>
+        <li><a href="#2">HTML Document Structure</a></li>
+        <li><a href="#3">Heading</a></li>
+        <li><a href="#4">Paragraph</a></li>
+        <li><a href="#5">Text Formatting</a></li>
+        <li><a href="#6">Creating Links</a></li>
+        <li><a href="#7">Lists (Ordered and Unordered)</a></li>
+        <li><a href="#8">Adding Images</a></li>
+        <li><a href="#9">Creating Tables</a></li>
+        <li><a href="#10">HTML Forms</a></li>
+        <li><a href="#11">Semantic HTML</a></li>
     </ul>
     <hr>
 
     <!-- section 2 -->
-    <h2>Introduction to HTML</h2>
+    <h2 id="1">Introduction to HTML</h2>
     <pre>
      - HTML stands for Hyper Text Markup Language
      - HTML is the standard markup language for creating Web pages
@@ -61,6 +61,307 @@
      - HTML is not a programming language, but a markup language
     </pre>
 
-    <a href="http://">Top</a>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 3 -->
+    <h2 id="2">HTML Document Structure</h2>
+    <p>An HTML document has the following basic structure...</p>
+    <pre>
+    คำอธิบาย:
+    &lt!DOCTYPE html&gt: ระบุว่าเป็นเอกสาร HTML5
+    &lthtml&gt: เป็นรากของเอกสาร HTML ทั้งหมด
+    &lthead&gt: ส่วนที่ใช้เก็บข้อมูลเมตา เช่น &lttitle&gt ชื่อหน้าเว็บ
+    &ltbody&gt: ส่วนที่จะแสดงผลบนหน้าเว็บ
+    องค์ประกอบสำคัญของ HTML
+    แท็ก (Tags):
+    - แท็กเริ่มต้น (Opening Tag): เช่น &lth1&gt
+    - แท็กปิด (Closing Tag): เช่น &lt/h1&gt
+    แอตทริบิวต์ (Attributes): คุณสมบัติของแท็ก
+    - ใช้เพื่อกำหนดคุณสมบัติเพิ่มเติม เช่น href, src, width, height
+       
+    ตัวอย่าง: &lth1&gtHello, World!&lt/h1&gt
+    &ltimg src="image.jpg" alt="A description of the image"&gt 
+    </pre>
+
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 4 -->
+    <h2 id="3">Heading</h2>
+    <h4><a href="W03_01_heading.html">workshop</a></h4>
+    <h3> HTML headings are defined with the &lth1&gt to &lth6&gt tags... </h3>
+    <pre>
+    - &lth1&gt: Heading 1
+    - &lth2&gt: Heading 2
+    - &lth3&gt: Heading 3
+    - &lth4&gt: Heading 4
+    - &lth5&gt: Heading 5
+    - &lth6&gt: Heading 6 
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 5 -->
+    <h2 id="4">Paragraph</h2>
+    <a href="http://">workshop</a>
+    <h3>HTML paragraphs are defined with the &ltp> tag...</h3>
+    <pre>   - &ltp&gt: Paragraph</pre>
+    
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 6 -->
+    <h2 id="5">Text Formatting</h2>
+    <a href="http://">workshop</a>
+    <h3>HTML provides various elements to format text...</h3>
+    <pre>
+    - &lth1&gt to &lth6&gt: Headings
+    - &ltp&gt: Paragraph
+    - &ltpre&gt: Preformatted text
+    - &ltb&gt: Bold text
+    - &ltstrong&gt: Important text
+    - &lti&gt: Italic text
+    - &ltem&gt: Emphasized text
+    - &ltu&gt: Underline text
+    - &ltins&gt: Inserted text
+    - &ltdel&gt: Deleted text
+    - &lts&gt: Strikethrough text
+    - &ltstrike&gt: Strikethrough text
+    - &ltsmall&gt: Smaller text
+    - &ltbig&gt: Big text
+    - &ltmark&gt: Marked/highlighted text
+    - &ltsub&gt: Subscript text
+    - &ltsup&gt: Superscript text
+    - &ltblockquote&gt: Block quotation
+    - &ltq&gt: Inline quotation
+    - &ltcode&gt: Code snippet   
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 7 -->
+    <h2 id="6">Creating Links</h2>
+    <a href="http://">workshop</a>
+    <h3>HTML links are defined with the &lta> tag...</h3>
+    <pre>
+    - &lta href="url" target=""&gtLink text&lt/a&gt
+    - The href attribute specifies the URL of the page the link goes to
+    - The target attribute specifies where to open the linked document
+        - _self: Open the linked document in the same window/tab
+        - _blank: Open the linked document in a new window/tab
+        - _parent: Open the linked document in the parent frame
+        - _top: Open the linked document in the full body of the window
+    - The link text is the visible part of the link
+    - Anchor links:
+        - Use the href attribute with the # symbol to link to a specific part of the page
+        - Use the id attribute to define the section to link to
+        - Example: &lta href="#section"&gtGo to Section&lt/a&gt
+        - Example: &lth3 id="section"&gtThis is the Section&lt/h3&gt
+    - Email links:
+        - Use the mailto: prefix to create an email link
+        - Example: &lta href="mailto:support@example.com"&gtemail us&lt/a&gt
+
+    - Download links:
+        - Use the download attribute to create a download link
+        - Example: &lta href="file.txt" download&gtDownload Text File&lt/a&gt
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 8 -->
+    <h2 id="7">Lists (Ordered and Unordered)</h2>
+    <a href="http://">workshop</a>
+    <h3>HTML lists are defined with the &ltul>, &ltol>, and &ltli> tags...</h3>
+    <pre>
+    - &ltul&gt: Unordered list
+    - &ltol&gt: Ordered list
+    - &ltli&gt: List item
+    - Unordered list:
+        - Use the &ltul&gt tag to create an unordered list
+        - Use the &ltli&gt tag to create each list item
+        - Example:
+            &ltul&gt
+                &ltli&gtCoffee&lt/li&gt
+                &ltli&gtTea&lt/li&gt
+                &ltli&gtMilk&lt/li&gt
+            &lt/ul&gt
+
+    - Ordered list:
+        - Use the &ltol&gt tag to create an ordered list
+        - Use the &ltli&gt tag to create each list item
+        - Example:
+            &ltol&gt
+                &ltli&gtCoffee&lt/li&gt
+                &ltli&gtTea&lt/li&gt
+                &ltli&gtMilk&lt/li&gt
+            &lt/ol&gt
+    - List style types:
+        - Use the list-style-type property to define the style of the list
+        - Example: &ltul style="list-style-type: disc;"&gt
+        - Example: &ltul style="list-style-type: circle;"&gt
+        - Example: &ltul style="list-style-type: square;"&gt
+        - Example: &ltul style="list-style-type: none;"&gt
+        - Example: &ltol type="1"&gt
+        - Example: &ltol type="A"&gt
+        - Example: &ltol type="a"&gt
+        - Example: &ltol type="I"&gt
+        - Example: &ltol type="i"&gt
+        - Example: &ltol type="A" start="3"&gt
+        - Example: &ltol type="1" start="3"&gt
+        - Example: &ltol style="list-style-type: decimal;"&gt
+        - Example: &ltol style="list-style-type: upper-alpha;"&gt
+        - Example: &ltol style="list-style-type: lower-alpha;"&gt
+        - Example: &ltol style="list-style-type: upper-roman;"&gt
+        - Example: &ltol style="list-style-type: lower-roman;"&gt     
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 9 -->
+    <h2 id="8">Adding Images</h2>
+    <a href="http://">workshop</a>
+    <h3>HTML images are defined with the &ltimg> tag...</h3>
+    <pre>
+    - &ltimg src="url" alt="description"&gt
+    - The src attribute specifies the URL of the image
+    - The alt attribute provides a description of the image
+    - The width and height attributes provide the size of the image
+        - Example: &ltimg src="image.jpg" alt="description of image"&gt
+        - Example: &ltimg src="image.jpg" alt="description of image" width="300" height="200">
+    - Image alignment:
+        - Use the align attribute to specify the alignment of an image
+        - Example: &ltimg src="image.jpg" alt="description" align="left"&gt
+        - Example: &ltimg src="image.jpg" alt="description" align="right"&gt
+
+    - Image border:
+        - Use the border attribute to add a border around an image
+        - Example: &ltimg src="image.jpg" alt="description" border="1"&gt
+
+    - Image link:
+        - Use the &lta&gt tag to create a link around an image
+        - Example: &lta href="url&ltimg src="image.jpg" alt="description&lt/a>
+    - Image gallery:
+        - Use the &ltdiv&gt tag to create an image gallery
+        - Use the &ltimg&gt tag to display each image
+        - Example:
+            &ltdiv class="gallery"&gt
+                &ltimg src="image1.jpg" alt="Image 1"&gt
+                &ltimg src="image2.jpg" alt="Image 2"&gt
+                &ltimg src="image3.jpg" alt="Image 3"&gt
+                &lt/div&gt
+
+    - flex box:
+        - Use the display: flex; property to create a flex container
+        - Use the gap property to create space between flex items
+        - Example:
+            .gallery {
+                display: flex;
+                gap: 10px;
+        }
+        .gallery img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }       
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 10 -->
+    <h2 id="9">Creating Tables</h2>
+    <a href="#">workshop 1</a> <a href="http://">workshop 2</a>
+    <h3>HTML tables are defined with the &lttable>, &lttr>, &ltth>, and &lttd> tags...</h3>
+    <pre>
+    - &lttable&gt: Table
+    - &lttr&gt: Table row
+    - &ltth&gt: Table header
+    - &lttd&gt: Table data/cell
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <!-- section 11 -->
+    <h2 id="10">HTML Forms</h2>
+    <a href="http://">workshop 1</a> <a href="http://">workshop 2</a>
+    <h3>HTML forms are defined with the &ltform> tag...</h3>
+    <pre>
+    หัวข้อเกี่ยวกับฟอร์ม
+
+    1. โครงสร้างพื้นฐานของฟอร์ม
+
+        - &ltform&gt: ใช้เป็นตัวครอบข้อมูลในฟอร์ม
+        - action และ method (GET/POST): การก าหนดปลายทางและวิธีส่งข้อมูล
+
+    2. ชนิดของอินพุต (Input Types)
+
+        - &ltinput&gt: ชนิดต่าง ๆ เช่น text, password, email, number,
+                                radio, checkbox, date, file
+        - &lttextarea&gt: ช่องข้อความขนาดใหญ่
+        - &ltselect&gt และ &ltoption&gt: เมนูแบบเลื่อนลง
+
+        - &ltdatalist&gt: รายการตัวเลือกที่ก าหนดไว้ล่วงหน้า
+        - &ltoptgroup&gt: กลุ่มตัวเลือก
+
+        - &ltfieldset&gt และ &ltlegend&gt: กลุ่มข้อมูลที่เกี่ยวข้อง
+
+    3. ปุ่มในฟอร์ม
+
+        - &ltbutton&gt: ปุ่มทั่วไป
+        - &ltinput type="submit"&gt และ &ltinput type="reset"&gt: ปุ่มส่งและล้างข้อมูล
+        - &ltinput type="button"&gt: ปุ่มทั่วไป
+        - &ltinput type="image"&gt: ปุ่มรูปภาพ
+        - &ltinput type="file"&gt: ปุ่มอัพโหลดไฟล์
+
+    4. การจัดการป้ายก ากับ (Labels)
+
+        - &ltlabel&gt: เพื่อเชื่อมกับ &ltinput&gt (ช่วยเพิ่มการเข้าถึง)
+        - for: ระบุ id ของอินพุตที่เกี่ยวข้อง
+
+    5. การตรวจสอบข้อมูล (Validation)
+
+        - คุณสมบัติ เช่น required, min, max, pattern
+        - การใช้ JavaScript เพื่อท าการตรวจสอบ
+
+    6. ฟอร์มแบบสมัยใหม่ (HTML5)
+
+        - placeholder: ตัวอย่างข้อความในช่องอินพุต
+        - autofocus: ให้ฟอร์มเริ่มต้นโฟกัส
+
+    7. การส่งฟอร์ม (Form Submission)
+
+        - การส่งข้อมูลไปยังเซิร์ฟเวอร์
+        - การใช้ JavaScript (เช่น onsubmit)
+   </pre>
+   <a href="#">Top</a>
+   <hr>
+
+    <!-- section 12 -->
+    <h2 id="11">Semantic HTML</h2>
+    <h3>Semantic HTML elements clearly define the content of a web page...</h3>
+    <pre>
+    - &ltheader>: Defines a header for a document or section
+    - &ltnav>: Defines navigation links
+    - &ltsection>: Defines a section in a document
+    - &ltarticle>: Defines an article
+    - &ltaside>: Defines content aside from the page content
+    - &ltfooter>: Defines a footer for a document or section 
+    </pre>
+    <a href="#">Top</a>
+    <hr>
+
+    <h2 id="11">My Workshop</h2>
+    <ul>
+        <li><a href="">workshop 01 : rbbit</a></li>
+        <li><a href="">workshop 02 : Login</a></li>
+    </ul>
+    <a href="#">Top</a>
+    <hr>
+    <a href="">Learn more about HTML</a>
+    <p style="color: rgb(255, 255, 255);
+            background-color: black;
+            margin-top: 50px;
+            padding: 10px;
+            text-align: center;">&copy 2024 HTML Tutorial by Napat Pimprasan</p>
 </body>
 </html>
