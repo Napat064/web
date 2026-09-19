@@ -1,20 +1,27 @@
-// ==========================================
-// GLOBAL STATES
-// ==========================================
 let currentSpecies = 'dog';
 let currentEditingPetId = null;
 
-// ==========================================
-// INITIALIZATION
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   checkSession();
-  runCalc();
+  setSpecies('dog');
+
+  // เพิ่ม Event Listener สลับชนิดอาหารและไฮไลต์ปุ่ม Preset เมื่อกด Radio ด้านบน
+  const foodDry = document.querySelector('input[name="food-type"][value="dry"]');
+  const foodWet = document.querySelector('input[name="food-type"][value="wet"]');
+
+  if (foodDry) {
+    foodDry.addEventListener('change', function() {
+      if (this.checked) setKcal(360, 'dry');
+    });
+  }
+
+  if (foodWet) {
+    foodWet.addEventListener('change', function() {
+      if (this.checked) setKcal(85, 'wet');
+    });
+  }
 });
 
-// ==========================================
-// 1. MODAL CONTROLLER
-// ==========================================
 function openModal(id) {
   const modal = document.getElementById(id);
   if (modal) modal.style.display = 'flex';
@@ -31,9 +38,6 @@ window.onclick = function(event) {
   }
 };
 
-// ==========================================
-// 2. AUTHENTICATION MANAGEMENT
-// ==========================================
 async function checkSession() {
   try {
     const res = await fetch('api.php?action=check_session');
@@ -65,7 +69,6 @@ async function handleLogin(e) {
   try {
     const res = await fetch('api.php?action=login', { method: 'POST', body: formData });
     const data = await res.json();
-    
     if (data.success) {
       closeModal('login-modal');
       checkSession();
@@ -88,7 +91,6 @@ async function handleRegister(e) {
   try {
     const res = await fetch('api.php?action=register', { method: 'POST', body: formData });
     const data = await res.json();
-    
     if (data.success) {
       closeModal('register-modal');
       checkSession();
@@ -108,29 +110,54 @@ async function logout() {
   alert('ออกจากระบบเรียบร้อยแล้ว');
 }
 
-// ==========================================
-// 3. PET CRUD MANAGEMENT
-// ==========================================
 function resetPetForm() {
-  currentEditingPetId = null; // รีเซ็ตเพื่อ INSERT ตัวใหม่
-  document.getElementById('pet-name').value = 'น้องใหม่';
-  document.getElementById('pet-weight').value = '5.0';
-  document.getElementById('is-neutered').checked = false;
-  alert('ล้างข้อมูลเรียบร้อย! กรุณากรอกข้อมูลสัตว์เลี้ยงตัวใหม่แล้วกดบันทึกได้เลยครับ');
-  runCalc();
+  currentEditingPetId = null;
+
+  if (document.getElementById('pet-name')) document.getElementById('pet-name').value = '';
+  if (document.getElementById('pet-weight')) document.getElementById('pet-weight').value = '';
+  if (document.getElementById('food-cal')) document.getElementById('food-cal').value = '';
+
+  document.querySelectorAll('#petForm input[type="radio"]').forEach(radio => {
+    radio.checked = false;
+  });
+
+  document.querySelectorAll('.btn-chip').forEach(btn => btn.classList.remove('active'));
+
+  if (document.getElementById('is-neutered')) document.getElementById('is-neutered').checked = false;
+  if (document.getElementById('breed-size')) document.getElementById('breed-size').value = '';
+  if (document.getElementById('start-time')) document.getElementById('start-time').value = '08:00';
+
+  if (document.getElementById('badge-pet-info')) document.getElementById('badge-pet-info').textContent = '-';
+  if (document.getElementById('res-daily-grams')) document.getElementById('res-daily-grams').textContent = '0';
+  if (document.getElementById('res-meal-grams')) document.getElementById('res-meal-grams').textContent = '0';
+  if (document.getElementById('res-meal-sub')) document.getElementById('res-meal-sub').textContent = 'กรัม / มื้อ';
+  if (document.getElementById('res-rer')) document.getElementById('res-rer').textContent = '0';
+  if (document.getElementById('res-factor')) document.getElementById('res-factor').textContent = '0x';
+  if (document.getElementById('res-der')) document.getElementById('res-der').textContent = '0';
+  if (document.getElementById('res-water-name')) document.getElementById('res-water-name').textContent = '-';
+  if (document.getElementById('res-water-val')) document.getElementById('res-water-val').textContent = '0';
+  if (document.getElementById('timeline-list')) document.getElementById('timeline-list').innerHTML = '';
+
+  setSpecies('dog');
 }
 
 async function savePetData() {
   const name = document.getElementById('pet-name').value;
   const weight = document.getElementById('pet-weight').value;
+
+  if (!name || !weight) {
+    alert('กรุณากรอกชื่อและน้ำหนักสัตว์เลี้ยงก่อนทำการบันทึก');
+    return;
+  }
+
   const ageStage = document.querySelector('input[name="age-stage"]:checked')?.value || 'adult';
   const activityLevel = document.querySelector('input[name="activity-level"]:checked')?.value || 'normal';
-  const isNeutered = document.getElementById('is-neutered')?.checked ? 1 : 0;
+  const isNeutered = document.getElementById('is-neutered')?.checked ? 'true' : 'false';
   const breedSize = document.getElementById('breed-size')?.value || 'medium';
-  const foodType = document.querySelector('input[name="food-type"]:checked')?.value || 'wet';
-  const foodCal = document.getElementById('food-cal').value;
+  const foodType = document.querySelector('input[name="food-type"]:checked')?.value || 'dry';
+  const foodCal = document.getElementById('food-cal').value || '360';
   const mealsCount = document.querySelector('input[name="meals-count"]:checked')?.value || '2';
-  const startTime = document.getElementById('start-time').value;
+  const startTime = document.getElementById('start-time').value || '08:00';
 
   const formData = new FormData();
   if (currentEditingPetId) {
@@ -153,8 +180,8 @@ async function savePetData() {
     const data = await res.json();
 
     if (data.success) {
-      alert(currentEditingPetId ? 'อัปเดตข้อมูลเรียบร้อย!' : 'บันทึกสัตว์เลี้ยงใหม่เรียบร้อย!');
-      currentEditingPetId = null;
+      currentEditingPetId = data.pet_id;
+      alert(data.message);
     } else {
       alert(data.message || 'กรุณาล็อกอินก่อนใช้งาน');
       if (!data.logged_in) openModal('login-modal');
@@ -162,6 +189,15 @@ async function savePetData() {
   } catch (error) {
     alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
   }
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 async function openMyPetsModal() {
@@ -177,17 +213,18 @@ async function openMyPetsModal() {
       data.pets.forEach(pet => {
         const icon = pet.species === 'dog' ? '🐶' : '🐱';
         const speciesText = pet.species === 'dog' ? 'สุนัข' : 'แมว';
+        const petJsonStr = JSON.stringify(pet).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
         
         const cardHtml = `
           <div class="pet-item-card">
             <div style="font-weight: bold; color: var(--primary-pink-dark);">
-              ${icon} ${pet.name} (${pet.weight} kg) - <span style="font-size:0.8rem; color:#64748b;">${speciesText}</span>
+              ${icon} ${escapeHtml(pet.name)} (${pet.weight} kg) - <span style="font-size:0.8rem; color:#64748b;">${speciesText}</span>
             </div>
             <div style="font-size: 0.8rem; color: #475569; margin-top: 4px;">
-              ช่วงวัย: ${pet.age_stage} | อาหาร: ${pet.food_type} (${pet.calories_per_100g} kcal/100g) | ${pet.meals_per_day} มื้อ/วัน
+              ช่วงวัย: ${pet.age_stage} | กิจกรรม: ${pet.activity_level} | อาหาร: ${pet.food_type} (${pet.calories_per_100g} kcal/100g)
             </div>
             <div class="pet-card-actions">
-              <button type="button" onclick='loadPetToForm(${JSON.stringify(pet)})'>📝 โหลด/แก้ไข</button>
+              <button type="button" data-pet='${petJsonStr}' onclick='loadPetFromBtn(this)'>📝 โหลด/แก้ไข</button>
               <button type="button" onclick='deletePet(${pet.id})' class="btn-del">🗑️ ลบ</button>
             </div>
           </div>
@@ -199,6 +236,11 @@ async function openMyPetsModal() {
   } catch (error) {
     alert('ไม่สามารถโหลดรายการสัตว์เลี้ยงได้');
   }
+}
+
+function loadPetFromBtn(btnElement) {
+  const pet = JSON.parse(btnElement.dataset.pet);
+  loadPetToForm(pet);
 }
 
 function loadPetToForm(pet) {
@@ -225,15 +267,13 @@ function loadPetToForm(pet) {
   const foodRadio = document.querySelector(`input[name="food-type"][value="${pet.food_type}"]`);
   if (foodRadio) foodRadio.checked = true;
 
-  document.getElementById('food-cal').value = pet.calories_per_100g;
-
   const mealsRadio = document.querySelector(`input[name="meals-count"][value="${pet.meals_per_day}"]`);
   if (mealsRadio) mealsRadio.checked = true;
 
   document.getElementById('start-time').value = pet.first_meal_time;
 
   closeModal('mypets-modal');
-  runCalc();
+  setKcal(pet.calories_per_100g, pet.food_type);
 }
 
 async function deletePet(id) {
@@ -256,20 +296,20 @@ async function deletePet(id) {
   }
 }
 
-// ==========================================
-// 4. CALCULATION & UI LOGIC (OOP CALCULATOR)
-// ==========================================
 function setSpecies(species) {
   currentSpecies = species;
   const tabDog = document.getElementById('tab-dog');
   const tabCat = document.getElementById('tab-cat');
+  const breedSizeContainer = document.getElementById('breed-size-container');
 
   if (species === 'dog') {
-    tabDog.classList.add('active');
-    tabCat.classList.remove('active');
+    if (tabDog) tabDog.classList.add('active');
+    if (tabCat) tabCat.classList.remove('active');
+    if (breedSizeContainer) breedSizeContainer.style.display = 'block';
   } else {
-    tabCat.classList.add('active');
-    tabDog.classList.remove('active');
+    if (tabCat) tabCat.classList.add('active');
+    if (tabDog) tabDog.classList.remove('active');
+    if (breedSizeContainer) breedSizeContainer.style.display = 'none';
   }
   runCalc();
 }
@@ -277,92 +317,105 @@ function setSpecies(species) {
 function stepWeight(delta) {
   const input = document.getElementById('pet-weight');
   let val = parseFloat(input.value) || 0;
-  val = Math.max(0.1, val + delta);
+  val = Math.max(0.1, Math.min(200.0, val + delta));
   input.value = val.toFixed(1);
   runCalc();
 }
 
-function setKcal(val) {
+// ฟังก์ชั่นตั้งค่าแคลอรี + สลับ Radio + ไฮไลต์ปุ่ม Preset สีเทา
+function setKcal(val, type = null, element = null) {
   document.getElementById('food-cal').value = val;
+
+  if (type === 'dry') {
+    const foodDry = document.querySelector('input[name="food-type"][value="dry"]');
+    if (foodDry) foodDry.checked = true;
+  } else if (type === 'wet') {
+    const foodWet = document.querySelector('input[name="food-type"][value="wet"]');
+    if (foodWet) foodWet.checked = true;
+  }
+
+  // เคลียร์คลาส active ทั้งหมดก่อน
+  document.querySelectorAll('.btn-chip').forEach(btn => btn.classList.remove('active'));
+
+  if (element) {
+    element.classList.add('active');
+  } else {
+    const matchedBtn = Array.from(document.querySelectorAll('.btn-chip')).find(btn => {
+      return btn.getAttribute('onclick')?.includes(`setKcal(${val}`);
+    });
+    if (matchedBtn) matchedBtn.classList.add('active');
+  }
+
   runCalc();
 }
 
-function runCalc() {
-  const name = document.getElementById('pet-name')?.value || 'น้อง';
-  const weight = parseFloat(document.getElementById('pet-weight')?.value) || 1.0;
-  const ageStage = document.querySelector('input[name="age-stage"]:checked')?.value || 'adult';
-  const activityLevel = document.querySelector('input[name="activity-level"]:checked')?.value || 'normal';
-  const isNeutered = document.getElementById('is-neutered')?.checked || false;
-  
-  const foodCal = parseFloat(document.getElementById('food-cal')?.value) || 85;
-  const mealsCount = parseInt(document.querySelector('input[name="meals-count"]:checked')?.value || '2', 10);
-  const startTime = document.getElementById('start-time')?.value || '08:00';
+async function runCalc() {
+  const name = document.getElementById('pet-name')?.value || '';
+  const weightInput = document.getElementById('pet-weight');
+  const foodCalInput = document.getElementById('food-cal');
 
-  // 1. คำนวณ RER = 70 * (weight ^ 0.75)
-  const rer = 70 * Math.pow(weight, 0.75);
+  let weight = parseFloat(weightInput?.value);
+  let foodCal = parseFloat(foodCalInput?.value);
 
-  // 2. คำนวณ DER Multiplier ตามเงื่อนไข สัตว์เลี้ยง/ทำหมัน/กิจกรรม
-  let factor = 1.6;
-  if (currentSpecies === 'dog') {
-    if (ageStage === 'pup') factor = 2.0;
-    else if (ageStage === 'senior') factor = 1.2;
-    else {
-      if (activityLevel === 'low') factor = 1.2;
-      else if (activityLevel === 'high') factor = 2.0;
-      else factor = isNeutered ? 1.6 : 1.8;
-    }
-  } else { // cat
-    if (ageStage === 'pup') factor = 2.5;
-    else if (ageStage === 'senior') factor = 1.0;
-    else {
-      if (activityLevel === 'low') factor = 1.0;
-      else if (activityLevel === 'high') factor = 1.6;
-      else factor = isNeutered ? 1.2 : 1.4;
-    }
+  if (isNaN(weight) || weight <= 0 || isNaN(foodCal) || foodCal <= 0) {
+    return;
   }
 
-  const der = rer * factor;
-  const dailyGrams = (der / foodCal) * 100;
-  const mealGrams = dailyGrams / mealsCount;
+  if (weight > 200) { weight = 200; if (weightInput) weightInput.value = 200; }
+  if (foodCal > 1000) { foodCal = 1000; if (foodCalInput) foodCalInput.value = 1000; }
 
-  // Render ข้อมูลลง Dashboard
-  if (document.getElementById('badge-pet-info')) document.getElementById('badge-pet-info').textContent = `${name} (${weight.toFixed(1)} kg)`;
-  if (document.getElementById('res-daily-grams')) document.getElementById('res-daily-grams').textContent = Math.round(dailyGrams).toLocaleString();
-  if (document.getElementById('res-meal-grams')) document.getElementById('res-meal-grams').textContent = (Math.round(mealGrams * 10) / 10).toFixed(1);
-  if (document.getElementById('res-meal-sub')) document.getElementById('res-meal-sub').textContent = `กรัม / มื้อ (${mealsCount} มื้อ/วัน)`;
-  
-  if (document.getElementById('res-rer')) document.getElementById('res-rer').textContent = Math.round(rer);
-  if (document.getElementById('res-factor')) document.getElementById('res-factor').textContent = `${factor.toFixed(1)}x`;
-  if (document.getElementById('res-der')) document.getElementById('res-der').textContent = Math.round(der);
+  const formData = new FormData();
+  formData.append('species', currentSpecies);
+  formData.append('name', name || 'น้อง');
+  formData.append('weight', weight);
+  formData.append('age_stage', document.querySelector('input[name="age-stage"]:checked')?.value || 'adult');
+  formData.append('activity_level', document.querySelector('input[name="activity-level"]:checked')?.value || 'normal');
+  formData.append('is_neutered', document.getElementById('is-neutered')?.checked ? 'true' : 'false');
+  formData.append('breed_size', document.getElementById('breed-size')?.value || 'medium');
+  formData.append('food_type', document.querySelector('input[name="food-type"]:checked')?.value || 'dry');
+  formData.append('calories_per_100g', foodCal);
+  formData.append('meals_count', document.querySelector('input[name="meals-count"]:checked')?.value || 2);
+  formData.append('first_meal_time', document.getElementById('start-time')?.value || '08:00');
 
-  if (document.getElementById('res-water-name')) document.getElementById('res-water-name').textContent = name;
-  if (document.getElementById('res-water-val')) document.getElementById('res-water-val').textContent = Math.round(weight * 55);
+  try {
+    const res = await fetch('api.php?action=calculate', { method: 'POST', body: formData });
+    const result = await res.json();
 
-  renderTimeline(startTime, mealsCount, mealGrams);
+    if (result.success) {
+      const d = result.data;
+      const displayName = name ? name : 'น้อง';
+      if (document.getElementById('badge-pet-info')) document.getElementById('badge-pet-info').textContent = `${escapeHtml(displayName)} (${weight.toFixed(1)} kg)`;
+      if (document.getElementById('res-daily-grams')) document.getElementById('res-daily-grams').textContent = Math.round(d.dailyGrams).toLocaleString();
+      if (document.getElementById('res-meal-grams')) document.getElementById('res-meal-grams').textContent = (Math.round(d.mealGrams * 10) / 10).toFixed(1);
+      if (document.getElementById('res-meal-sub')) document.getElementById('res-meal-sub').textContent = `กรัม / มื้อ (${d.slots.length} มื้อ/วัน)`;
+      
+      if (document.getElementById('res-rer')) document.getElementById('res-rer').textContent = Math.round(d.rer).toLocaleString();
+      if (document.getElementById('res-factor')) document.getElementById('res-factor').textContent = `${d.factor.toFixed(1)}x`;
+      if (document.getElementById('res-der')) document.getElementById('res-der').textContent = Math.round(d.der).toLocaleString();
+
+      if (document.getElementById('res-water-name')) document.getElementById('res-water-name').textContent = escapeHtml(displayName);
+      if (document.getElementById('res-water-val')) document.getElementById('res-water-val').textContent = Math.round(d.water).toLocaleString();
+
+      renderTimeline(d.slots);
+    }
+  } catch (error) {
+    console.error('Calculation error:', error);
+  }
 }
 
-function renderTimeline(startTimeStr, mealsCount, mealGrams) {
+function renderTimeline(slots) {
   const container = document.getElementById('timeline-list');
   if (!container) return;
   container.innerHTML = '';
 
-  let [hours, minutes] = startTimeStr.split(':').map(Number);
-  const intervalHours = Math.floor(12 / Math.max(1, mealsCount - 1)) || 4;
-
-  const mealLabels = ['มื้อเช้า', 'มื้อเที่ยง', 'มื้อเย็น', 'มื้อดึก'];
-
-  for (let i = 0; i < mealsCount; i++) {
-    let currentH = (hours + (i * intervalHours)) % 24;
-    let timeFormatted = `${String(currentH).padStart(2, '0')}:${String(minutes).padStart(2, '0')} น.`;
-    let label = mealLabels[i] || `มื้อที่ ${i + 1}`;
-
+  slots.forEach(slot => {
     const itemHtml = `
       <div class="timeline-item">
-        <div class="timeline-time">${timeFormatted}</div>
-        <div class="timeline-label">${label}</div>
-        <div class="timeline-value">${(Math.round(mealGrams * 10) / 10).toFixed(1)} กรัม</div>
+        <div class="timeline-time">${slot.time}</div>
+        <div class="timeline-label">${slot.label}</div>
+        <div class="timeline-value">${slot.grams.toFixed(1)} กรัม</div>
       </div>
     `;
     container.innerHTML += itemHtml;
-  }
+  });
 }

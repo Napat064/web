@@ -3,29 +3,34 @@ class FeedingSchedule {
     private int $mealsPerDay;
     private string $firstMealTime;
 
-    public function __construct(int $mealsPerDay = 2, string $firstMealTime = '08:00') {
-        $this->mealsPerDay = $mealsPerDay;
+    public function __construct(int $mealsPerDay, string $firstMealTime) {
+        $this->mealsPerDay = max(1, min(4, $mealsPerDay));
         $this->firstMealTime = $firstMealTime;
     }
 
-    public function calculatePortionPerMeal(float $dailyGrams): float {
-        return $this->mealsPerDay > 0 ? ($dailyGrams / $this->mealsPerDay) : 0;
-    }
-
     public function getMealSlots(float $dailyGrams): array {
-        $portion = $this->calculatePortionPerMeal($dailyGrams);
         $slots = [];
-        list($hours, $minutes) = explode(':', $this->firstMealTime);
+        $portionPerMeal = $dailyGrams / $this->mealsPerDay;
+        
+        $parts = explode(':', $this->firstMealTime);
+        $hours = intval($parts[0] ?? 8);
+        $minutes = intval($parts[1] ?? 0);
+
         $intervalHours = floor(12 / max(1, $this->mealsPerDay - 1));
+        $mealNames = ['มื้อเช้า', 'มื้อเที่ยง', 'มื้อเย็น', 'มื้อดึก'];
 
         for ($i = 0; $i < $this->mealsPerDay; $i++) {
             $currentH = ($hours + ($i * $intervalHours)) % 24;
-            $timeStr = sprintf("%02d:%02d น.", $currentH, $minutes);
+            $timeFormatted = sprintf('%02d:%02d น.', $currentH, $minutes);
+            $label = $mealNames[$i] ?? ("มื้อที่ " . ($i + 1));
+
             $slots[] = [
-                'time' => $timeStr,
-                'portion' => round($portion, 1)
+                'time' => $timeFormatted,
+                'label' => $label,
+                'grams' => round($portionPerMeal, 1)
             ];
         }
+
         return $slots;
     }
 }

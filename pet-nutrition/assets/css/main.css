@@ -8,7 +8,7 @@
   --card-bg: #ffffff;
   --text-main: #4a3e3d;
   --text-muted: #8c7a78;
-  --border-soft: #f4ece8;
+  --border-soft: #ffe8e0;
 }
 
 * { 
@@ -70,11 +70,6 @@ body {
 .brand-subtitle { 
   font-size: 0.75rem; 
   color: var(--text-muted); 
-}
-
-.header-presets { 
-  display: flex; 
-  gap: 8px; 
 }
 
 .btn-preset {
@@ -154,7 +149,7 @@ body {
 
 /* Sections inside form */
 .section-group { 
-  border-bottom: 2px dashed #f8efeb; 
+  border-bottom: 2px dashed var(--border-soft); 
   padding-bottom: 1rem; 
   margin-bottom: 1rem; 
 }
@@ -166,7 +161,7 @@ body {
 
 .section-title { 
   font-weight: 700; 
-  font-size: 0.9rem; 
+  font-size: 0.95rem; 
   color: var(--text-main); 
   margin-bottom: 2px; 
 }
@@ -241,25 +236,29 @@ body {
 .form-control {
   width: 100%;
   padding: 8px 12px;
-  border: 2px solid var(--border-soft);
-  border-radius: 12px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 14px;
   font-family: inherit;
   font-size: 0.85rem;
   outline: none;
-  background: #fffdfb;
+  background: #ffffff;
+  color: #4a3e3d;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .form-control:focus { 
   border-color: var(--primary-pink); 
+  box-shadow: 0 0 0 3px rgba(255, 143, 163, 0.15);
 }
 
 .number-input-group {
   display: flex;
   align-items: center;
-  border: 2px solid var(--border-soft);
-  border-radius: 12px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 14px;
   overflow: hidden;
-  background: #fffdfb;
+  background: #ffffff;
 }
 
 .number-input-group button {
@@ -290,13 +289,13 @@ body {
   font-weight: 600; 
 }
 
-/* Pill Selection (ซ่อน Radio Button ดั้งเดิม) */
+/* Custom Segmented Control (Pills) */
 .segmented-pill-group { 
   display: flex; 
-  gap: 2px; 
-  background: #fdf5f0; 
-  padding: 3px; 
-  border-radius: 12px; 
+  gap: 4px; 
+  background-color: #fff9f6; 
+  padding: 4px; 
+  border-radius: 16px; 
   border: 1px solid var(--border-soft); 
 }
 
@@ -307,64 +306,119 @@ body {
 .pill-btn { 
   flex: 1; 
   text-align: center; 
+  cursor: pointer;
+  user-select: none;
 }
 
 .pill-box { 
-  display: block; 
-  padding: 6px 2px; 
-  font-size: 0.72rem; 
-  border-radius: 8px; 
-  cursor: pointer; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px; 
+  font-size: 0.82rem; 
+  border-radius: 12px; 
   color: var(--text-muted); 
   font-weight: 500; 
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 
-.pill-btn input:checked + .pill-box { 
-  background: linear-gradient(135deg, #ff8fa3, #ff6b81); 
-  color: white; 
+.pill-btn input[type="radio"]:checked + .pill-box { 
+  background: linear-gradient(135deg, #ff758c, #ff7eb3); 
+  color: #ffffff; 
   font-weight: 700; 
-  box-shadow: 0 2px 6px rgba(255, 107, 129, 0.3); 
+  box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3); 
 }
 
+/* Preset Chips */
 .quick-presets-row { 
   display: flex; 
   gap: 6px; 
   align-items: center; 
   flex-wrap: wrap; 
-  margin-top: 6px; 
+}
+
+.preset-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .btn-chip { 
-  background: #fff0f3; 
-  border: 1px solid #ffccd5; 
-  color: #d65a70; 
-  border-radius: 12px; 
-  padding: 3px 8px; 
-  font-size: 0.7rem; 
-  cursor: pointer; 
+  background-color: #ffffff; 
+  border: 1.5px solid #ffccd5; 
+  color: #ff6b81; 
+  border-radius: 20px; 
+  padding: 5px 12px; 
+  font-size: 0.78rem; 
   font-family: inherit; 
+  font-weight: 500; 
+  cursor: pointer; 
+  transition: all 0.2s ease; 
 }
 
-.btn-submit {
-  width: 100%;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  margin-top: 10px;
-  box-shadow: 0 6px 18px rgba(255, 117, 140, 0.35);
-  font-family: inherit;
-}
-
-.btn-submit:hover { 
+.btn-chip:hover { 
+  background-color: #fff0f3; 
+  border-color: #ff758c; 
   transform: translateY(-1px); 
-  box-shadow: 0 8px 22px rgba(255, 117, 140, 0.45); 
+}
+
+/* กลุ่มปุ่มจัดการข้อมูล */
+/* คอนเทนเนอร์ปุ่มแอ็กชัน */
+.action-button-group {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  margin-top: 24px !important;
+  width: 100% !important;
+}
+
+/* ปุ่มบันทึกข้อมูล (สีเขียว Mint Flex เต็มความกว้าง) */
+.btn-submit-green {
+  flex: 1 !important;
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 12px 20px !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-submit-green:hover {
+  background: #059669 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* ปุ่มล้างฟอร์ม (สไตล์แคปซูลสีชมพู) */
+.btn-secondary-action {
+  background-color: #fff0f3 !important;
+  color: #e11d48 !important;
+  border: 1px solid #ffe4e6 !important;
+  padding: 12px 20px !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-secondary-action:hover {
+  background-color: #ffe4e6 !important;
+  color: #be123c !important;
 }
 
 /* Dashboard UI Right */
@@ -497,6 +551,7 @@ body {
   font-size: 0.75rem; 
   color: var(--text-muted); 
 }
+
 /* Modal Overlays */
 .modal-overlay {
   display: none;
@@ -534,6 +589,7 @@ body {
   border-radius: 12px;
   margin-top: 6px;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .user-profile-menu {
@@ -556,6 +612,7 @@ body {
   border-radius: 12px;
   cursor: pointer;
   font-size: 0.75rem;
+  font-family: inherit;
 }
 
 .pets-grid-list {
@@ -572,12 +629,14 @@ body {
   background: #fffafa;
   padding: 10px 14px;
   border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .pet-card-actions {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .pet-card-actions button {
@@ -588,10 +647,48 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.75rem;
+  font-family: inherit;
 }
 
 .pet-card-actions button.btn-del {
   background: #fef2f2;
   border-color: #fecaca;
   color: #991b1b;
+}
+
+/* ปุ่ม Preset ค่าตามท้องตลาด */
+.quick-presets-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.preset-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.btn-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #fecdd3;
+  background-color: #ffffff;
+  color: #e11d48;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-chip:hover {
+  background-color: #ffe4e6;
+}
+
+/* ปุ่ม Preset เมื่อ Active (เปลี่ยนเป็นสีเทา) */
+.btn-chip.active {
+  background-color: #64748b !important; /* สีเทา Slate */
+  color: #ffffff !important;           /* ตัวหนังสือสีขาว */
+  border-color: #64748b !important;
+  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
 }
